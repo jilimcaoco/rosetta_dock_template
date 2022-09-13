@@ -1,0 +1,17 @@
+<ROSETTASCRIPTS>
+   <SCOREFXNS>
+      <ScoreFunction name="ligand_sfxn" weights="ligand.wts"/>
+   </SCOREFXNS>
+   <RESIDUE_SELECTORS>
+   </RESIDUE_SELECTORS>
+   <MOVERS>
+      <FastRelax name="fast_relax" scorefxn="ligand_sfxn" repeats="8">
+         <MoveMap name="mm" jump="True">
+         </MoveMap>
+      </FastRelax>
+   </MOVERS>
+   <PROTOCOLS>
+      <Add mover="fast_relax"/>
+   </PROTOCOLS>
+   <OUTPUT scorefxn="ligand_sfxn"/>	
+</ROSETTASCRIPTS>

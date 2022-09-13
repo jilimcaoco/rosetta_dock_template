@@ -1,0 +1,86 @@
+#!/bin/python
+#
+##
+## This script is a Miguel Limcaoco producation enjoy!
+## email limcaoco@umich.edu
+##
+#
+#
+import sys
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import sklearn.utils as sk
+from quality_measures import calculate_pnear
+from parse_sc_file import extract_ligand_energy_landscape as interface_rmsd
+
+
+def bootstrap_pnear(landscape_df , bootstrap_n):
+
+    bootstrap_vals = []
+
+
+    #need to find ref RMSD and put it back in the resample...
+    landscape_df = landscape_df.sort_values(["ligand_rms_no_super_X"], \
+                                            ascending=True)
+    reference_ligand = landscape_df.iloc[0:1]
+    landscape_df = landscape_df.iloc[1: , :]
+
+    print(reference_ligand)
+    
+    for x in range(bootstrap_n + 1):
+        if x % 100 == 0:
+            print( str(sys.argv[0]) + "now on bootstrap step: " + str(x))
+
+        boot_df = sk.resample(landscape_df, \
+                              replace=True, \
+                              n_samples=None, \
+                              random_state=None, \
+                              stratify=None)
+        boot_w_ref = [boot_df, reference_ligand]
+        bootref_df = pd.concat(boot_w_ref)
+        bootref_df = bootref_df.sort_values(["ligand_rms_no_super_X"], \
+                                                ascending=True)
+        #DEBUGGING: print(bootref_df.iloc[0:1])
+        
+        bootref_df = bootref_df.reset_index()
+        
+        pnear = calculate_pnear(bootref_df["interface_delta_X"].astype(float), \
+                                bootref_df["ligand_rms_no_super_X"].astype(float))
+
+        bootstrap_vals.append(pnear)
+
+    bootstraped_pnears_df = pd.DataFrame(bootstrap_vals, columns=["pnear_vals"])
+
+    return bootstraped_pnears_df
+
+
+
+def main():
+
+    
+   # file_name = input(str(sys.argv[0]) + ": Enter name of scorefile...")
+    file_name = str(sys.argv[1])
+    print(str(sys.argv[0]) + "calulating pnear for " + file_name)
+    print(str(sys.argv[0]) + "ligand name is : " + file_name[0:3])
+    landscape_df = interface_rmsd(file_name)
+
+    pnear = calculate_pnear(landscape_df["interface_delta_X"].astype(float), \
+                            landscape_df["ligand_rms_no_super_X"].astype(float))
+
+    bootstraped_pnears_df = bootstrap_pnear(landscape_df, bootstrap_n=5000)
+    #print(bootstraped_pnears_df)
+
+    bootstraped_pnears_df.to_csv(file_name[0:3] + '_bootstrap.csv')
+
+    #generating histogram
+    plt.hist(bootstraped_pnears_df, bins=40)
+    plt.axvline(x=pnear)
+    plt.title(file_name[0:3])
+    plt.xlabel('Pnear')
+    plt.savefig(file_name[0:3] + "_bootstrap.png")
+    sys.exit(0)
+    
+    
+if __name__=="__main__":
+    main()

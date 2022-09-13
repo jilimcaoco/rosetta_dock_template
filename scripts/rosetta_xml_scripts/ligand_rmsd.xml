@@ -1,0 +1,11 @@
+<ROSETTASCRIPTS>
+  <SCOREFXNS>
+    <ScoreFunction name="ligand_hard_rep" weights="ref2015"/>
+  </SCOREFXNS>
+     <MOVERS>
+       <InterfaceScoreCalculator name="rmsd" chains="X" native="%%native%%" scorefxn="ligand_hard_rep"/>
+     </MOVERS>
+  <PROTOCOLS>
+    <Add mover_name="rmsd"/>
+    </PROTOCOLS>
+</ROSETTASCRIPTS>

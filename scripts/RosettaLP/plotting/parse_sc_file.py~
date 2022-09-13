@@ -1,0 +1,40 @@
+#!/bin/python
+#
+##
+## This python script is a Miguel Limcaoco production enjoy!
+## email: limcaoco@umich.edu
+##
+#
+
+import sys
+import pandas as pd
+import typing
+
+DESCRIPTION = """
+Parses a rosetta sc file to pull relevant information 
+"""
+
+def get_x_interface(file_name: str) -> pd.DataFrame:
+
+    rosetta_scores = pd.read_csv(file_name, delim_whitespace=True, skiprows=1)
+    id_interface = rosetta_scores[["description", "interface_delta_X"]]
+    return rosetta_scores
+
+def get_total_score(file_name: str) -> pd.DataFrame:
+
+    rosetta_scores = pd.read_csv(file_name, delim_whitespace=True, skiprows=1)
+    id_score = rosetta_scores[["description", "score"]]
+    return rosetta_scores
+
+def extract_ligand_energy_landscape(file_name: str) -> pd.DataFrame:
+
+    rosetta_scores = pd.read_csv(file_name, delim_whitespace=True, skiprows=1)
+    interface_rmsd = rosetta_scores[["interface_delta_X", "ligand_rms_no_super_X"]]
+    interface_rmsd = interface_rmsd[pd.to_numeric(interface_rmsd['interface_delta_X'], errors='coerce').notnull()]
+    interface_rmsd = interface_rmsd.drop_duplicates(keep=False)
+    interface_rmsd = interface_rmsd.dropna()
+    interface_rmsd = interface_rmsd.reset_index()
+    print(interface_rmsd)
+    return interface_rmsd
+    
+
