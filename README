@@ -1,0 +1,16 @@
+This is a interactive wizard  to run rosetta ligand docking and GA ligand docking jobs.
+There is also a collection of scripts for analysis and post processing. This is a work in progress
+with updates and functionality to be added later. So far the ligand docking simulation side of
+things works with analysis steps needing to be added.
+
+To use this wizard copy over the following directories and files from this repository to your
+seperate project folder:
+input_files
+intermediate_files
+output_files
+rosetta_runs
+setup_rosetta_dock_env.sh
+
+to use the wizard in your project directory use the following commands:
+source setup_rosetta_dock_env.sh
+$ROSETTA_DOCK/wizard.sh
