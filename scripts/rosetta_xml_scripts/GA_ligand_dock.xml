@@ -10,7 +10,7 @@
     <StartFrom name="start_pos" chain="X">
       <Coordinates x="%%X%%" y="%%Y%%" z="%%Z%%"/>
     </StartFrom>
-    <GALigandDock name="dock" runmode="%%runmode%%" scorefxn="dockscore" scorefxn_relax="relax"/>
+    <GALigandDock name="dock" runmode="%%runmode%%" scorefxn="dockscore" scorefxn_relax="relax" estimate_dG="True"/>
   </MOVERS>
   <PROTOCOLS>
     <Add mover_name="start_pos"/>

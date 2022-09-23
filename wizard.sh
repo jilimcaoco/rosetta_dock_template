@@ -8,7 +8,7 @@
 
 DATE=$(date +'%m%d%Y')
 WIZARD_NAME='Rosetta Dock Wizard'
-source setup_rosetta_dock_env.sh 
+#source setup_rosetta_dock_env.sh
 
 create_ligand_params () {
 
@@ -49,7 +49,6 @@ create_ligand_params () {
 
     
     if [ "${params_mode}" = "GA_ligand_dock" ]; then
-	echo "${WIZARD_NAME}: not yet implimented"
     
 	mkdir ./intermediate_files/prepared_ligand_libraries/GA_${ligand_library_id}
 	mkdir ./intermediate_files/prepared_ligand_libraries/GA_${ligand_library_id}/params

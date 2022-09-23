@@ -28,7 +28,7 @@ cat > ${PROJ_DIR}/rosetta_runs/ligand_docking_runs/${LIGAND_DOCK_JOB_NAME}_${DAT
 #SBATCH --nodes=1
 #SBATCH --output=docking_slrm.log
 #SBATCH --mem-per-cpu=5g
-#SBATCH --time=01:00:00
+#SBATCH --time=02:00:00
 #SBATCH --partition=standard
 #SBATCH --mail-user=limcaoco@med.umich.edu
 #SBATCH --mail-type=END,FAIL
@@ -55,8 +55,7 @@ ${PATH_TO_ROSETTA}/main/source/bin/rosetta_scripts.default.linuxgccrelease \
     -run:jran \${JOB_ID} \
     -out:nstruct 1 \
     -out:level 300 \
-    -estimate_dG \
-    -out:suffix _\${TASK_ID} \ 
+    -out:suffix _\${TASK_ID} \
     -out:file:silent ${OUT_DIR}/${LIGAND}/out_files/ldock_${DATE}_${LIGAND}_${RECEPTOR}_\${TASK_ID}_${JOB_ID}.out \
     -out:file:silent_struct_type binary \
     > ${OUT_DIR}/${LIGAND}/log_files/ldock_${LIGAND}_${RECEPTOR}_\${JOB_ID}_\${TASK_ID}.log

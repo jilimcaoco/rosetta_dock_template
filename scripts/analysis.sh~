@@ -1,5 +1,0 @@
-#!/bin/bash 
-
-LIGAND_DOCK_JOB_NAME=${1}
-
-cat 

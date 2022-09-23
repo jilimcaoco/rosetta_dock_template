@@ -55,6 +55,8 @@ do
     #moving to intermediate file directory
     cp ${LIGAND_ID}.params ${PROJ_DIR}/intermediate_files/prepared_ligand_libraries/GA_${ligand_library_id}/params
     cp ${LIGAND_ID}_0001.pdb ${PROJ_DIR}/intermediate_files/prepared_ligand_libraries/GA_${ligand_library_id}/pdbs
- 
+
+    rm Z*
+    
 done
-#rm Z*
+

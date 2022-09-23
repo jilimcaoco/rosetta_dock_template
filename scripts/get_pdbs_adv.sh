@@ -16,9 +16,11 @@ PATH_TO_ROSETTA=/home/limcaoco/rosetta/rosetta_dev
 
 
 echo "get_pdbs_adv.sh: selected mode is: " ${MODE}
+echo "get_pdbs_adv.sh: score type to rank pdbs is not yet implimented"
 echo "get_pdbs_adv.sh: selected score file is: " ${SCORE_TYPE}
 
 SCORE_NUM=1
+
 
 #score type options
 #if [ ${SCORE_TYPE} == '-total_score']; then
