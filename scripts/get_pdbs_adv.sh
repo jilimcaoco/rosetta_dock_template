@@ -189,6 +189,34 @@ elif [ ${MODE} ==  '-all' ]; then
     done
     echo "get_pdbs_adv.sh: PAU!"
 
+elif [ ${MODE} ==  '-topGA' ]; then
+    
+    for SILENT_FILE in ../out_files/*; \
+	do 
+	echo "get_pdbs_adv.sh: getting scores for: " ${SILENT_FILE}
+	grep '^SCORE:' ${SILENT_FILE} >> scores.sc 
+    done
+    sort -k31 -n scores.sc > sorted_scores.sc #k1 is total_score k2 is dG
+    awk '{print $39}' sorted_scores.sc > temp_name_tags
+    sed '/description/d' temp_name_tags > name_tags 
+    sed -n 1p name_tags > top_model
+    echo "get_pdbs_adv.sh: the top scoring model is: "
+    head top_model
+    #rm temp_name_tags
+	
+    echo "get_pdbs_adv.sh: extracting top model now..."
+    for SILENT_FILE in ../out_files/*; \
+        do ${PATH_TO_ROSETTA}/main/source/bin/extract_pdbs.default.linuxgccrelease \
+        -in:file:silent ${SILENT_FILE} \
+        -out:pdb_gz \
+	-gen_potential \
+	-crystal_refine \
+        @ ${EXTRA_PARAMS} \
+	-in:file:tagfile top_model >> extract_pdbs_adv.log
+    done
+    rm extract_pdbs_adv.log
+    echo "get_pdbs_adv.sh: PAU!"
+
 else
     echo "get_pdbs_adv.sh: " ${MODE} "not a valid option, see -help"
 fi

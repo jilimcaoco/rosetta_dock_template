@@ -91,12 +91,14 @@ EOF
 cat > rosetta_runs/ligand_docking_runs/${LIGAND_DOCK_JOB_NAME}_${DATE}/2_collect.sh <<EOF
 #!/bin/bash
 #
+#the following script will extract the top model per GAligand dock job (each job generates 10 models)
+#the files will be located in /{PROJ_DIR}/OUT_FILES/{JOB_NAME}/pdbs
 
 for LIGAND_SBATCH in ${OUT_DIR}/*;
 do
 
 cd \${LIGAND_SBATCH}/pdbs
-bash ${ROSETTA_DOCK}/scripts/get_pdbs_adv.sh -all -total_score  ${PROJ_DIR}/rosetta_runs/ligand_docking_runs/${LIGAND_DOCK_JOB_NAME}_${DATE}/ligand_params.options
+bash ${ROSETTA_DOCK}/scripts/get_pdbs_adv.sh -topGA -total_score  ${PROJ_DIR}/rosetta_runs/ligand_docking_runs/${LIGAND_DOCK_JOB_NAME}_${DATE}/ligand_params.options
 cd ${PROJ_DIR}
 
 done
